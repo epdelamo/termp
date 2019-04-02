@@ -475,6 +475,15 @@ sns.set(style="whitegrid")
 app = dash.Dash(__name__, external_stylesheets=external_stylesheets)
 server= app.server
 
+VALID_USERNAME_PASSWORD_PAIRS = [
+        ['test', 'pass'], ['araceli', 'admin'], ['guest', 'guest']
+]
+
+auth = dash_auth.BasicAuth(
+    app,
+    VALID_USERNAME_PASSWORD_PAIRS
+)
+
 app.scripts.config.serve_locally = True
 app.config['suppress_callback_exceptions']=True
 
