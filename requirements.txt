@@ -13,6 +13,7 @@ DateTime==4.3
 decorator==4.4.0
 Flask==1.0.2
 Flask-Compress==1.4.0
+Flask-Cors==3.0.7
 Flask-SeaSurf==0.2.2
 gunicorn==19.9.0
 idna==2.8
@@ -23,6 +24,7 @@ jsonschema==3.0.1
 jupyter-core==4.4.0
 kiwisolver==1.0.1
 MarkupSafe==1.1.1
+matplotlib==3.0.2
 nbformat==4.4.0
 pandas==0.24.2
 plotly==3.7.1
