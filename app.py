@@ -1,13 +1,4 @@
-from flask import Flask, jsonify
-app = Flask("term_integration")
-import matplotlib.pyplot as plt
-import seaborn as sns
-import numpy as np
-import pandas as pd
-from matplotlib.figure import Figure
-import io
-from flask import Flask, send_file, make_response, send_from_directory
-from matplotlib.backends.backend_agg import FigureCanvasAgg as FigureCanvas
+
 import dash_core_components as dcc
 import plotly.graph_objs as go
 import dash
@@ -19,14 +10,16 @@ import dash_table
 import dash_auth
 import plotly
 
+from flask import Flask, jsonify
+from flask import Flask, send_file, make_response, send_from_directory
+import matplotlib.pyplot as plt
+from matplotlib.backends.backend_agg import FigureCanvasAgg as FigureCanvas
+import seaborn as sns
+import numpy as np
+import pandas as pd
 
-external_stylesheets = ['https://codepen.io/webdatarocks/pen/oVpebp?page=1&']
-
-app = dash.Dash(__name__, external_stylesheets=external_stylesheets)
-
-
-sns.set(style="darkgrid")
-
+from matplotlib.figure import Figure
+import io
 
 df_jan = pd.ExcelFile(r'ENE - 02.- MONTHLY INCIDENTS Real Time.xlsx')
 dfs_jan = {sheet_name: df_jan.parse(sheet_name) 
@@ -175,83 +168,83 @@ trace1 = go.Bar(
     x=jan_count['CI Name'], 
     y=jan_count['Incident ID'],
     name = 'Jan',
-    marker=dict(color='#FFD700')
+    marker=dict(color='#8A0808')
 )
 trace2 = go.Bar(
     x=feb_count['CI Name'],
     y=feb_count['Incident ID'],
     name='Feb',
-    marker=dict(color='#9EA0A1')
+    marker=dict(color='#FFBF00')
 )
 trace3 = go.Bar(
     x=mar_count['CI Name'],
     y=mar_count['Incident ID'],
     name='March',
-    marker=dict(color='#CD7F32')
+    marker=dict(color='#F7D358')
 )
 trace4 = go.Bar(
     x=apr_count['CI Name'],  
     y=apr_count['Incident ID'],
     name = 'Apr',
-    marker=dict(color='#00FFFF')
+    marker=dict(color='#F5A9A9')
 )
 trace5 = go.Bar(
     x=may_count['CI Name'],
     y=may_count['Incident ID'],
     name='May',
-    marker=dict(color='#FF00FF')
+    marker=dict(color='#D8D8D8')
 )
 trace6 = go.Bar(
     x=jun_count['CI Name'],
     y=jun_count['Incident ID'],
     name='June',
-    marker=dict(color='#00FF00')
+    marker=dict(color='#F6CECE')
 )
 data = [trace1, trace2, trace3, trace4, trace5, trace6]
 #%%
-traceline1 = go.Scatter(
-    y=jan_inc['Incident ID'],  # NOC stands for National Olympic Committee
-    x=jan_inc['date'],
-    name = 'Jan',
-    mode='markers',
-    marker=dict(color='#FFD700') # set the marker color to gold
-)
-traceline2 = go.Scatter(
-    y=feb_inc['Incident ID'],
-    x=feb_inc['date'],
-    name='Feb',
-    mode='markers',
-    marker=dict(color='#9EA0A1') # set the marker color to silver
-)
-traceline3 = go.Scatter(
-    y=mar_inc['Incident ID'],
-    x=mar_inc['date'],
-    name='March',
-    mode='markers',
-    marker=dict(color='#CD7F32') # set the marker color to bronze
-)
-traceline4 = go.Scatter(
-    y=apr_inc['Incident ID'],  # NOC stands for National Olympic Committee
-    x=apr_inc['date'],
-    name = 'Apr',
-    mode='markers',
-    marker=dict(color='#00FFFF') # set the marker color to gold
-)
-traceline5 = go.Scatter(
-    y=may_inc['Incident ID'],
-    x=may_inc['date'],
-    name='May',
-    mode='markers',
-    marker=dict(color='#FF00FF') # set the marker color to silver
-)
-traceline6 = go.Scatter(
-    y=jun_inc['Incident ID'],
-    x=jun_inc['date'],
-    name='June',
-    mode='markers',
-    marker=dict(color='#00FF00') # set the marker color to bronze
-)
-dataline = [traceline1, traceline2, traceline3, traceline4, traceline5, traceline6]
+#traceline1 = go.Scatter(
+#    y=jan_inc['Incident ID'], 
+#    x=jan_inc['date'],
+#    name = 'Jan',
+#    mode='markers',
+#    marker=dict(color='#8A0808')
+#)
+#traceline2 = go.Scatter(
+#    y=feb_inc['Incident ID'],
+#    x=feb_inc['date'],
+#    name='Feb',
+#    mode='markers',
+#    marker=dict(color='#FFBF00') 
+#)
+#traceline3 = go.Scatter(
+#    y=mar_inc['Incident ID'],
+#    x=mar_inc['date'],
+#    name='March',
+#    mode='markers',
+#    marker=dict(color='#F7D358')
+#)
+#traceline4 = go.Scatter(
+#    y=apr_inc['Incident ID'],
+#    x=apr_inc['date'],
+#    name = 'Apr',
+#    mode='markers',
+#    marker=dict(color='#F5A9A9')
+#)
+#traceline5 = go.Scatter(
+#    y=may_inc['Incident ID'],
+#    x=may_inc['date'],
+#    name='May',
+#    mode='markers',
+#    marker=dict(color='#D8D8D8')
+#)
+#traceline6 = go.Scatter(
+#    y=jun_inc['Incident ID'],
+#    x=jun_inc['date'],
+#    name='June',
+#    mode='markers',
+#    marker=dict(color='#F6CECE')
+#)
+#dataline = [traceline1, traceline2, traceline3, traceline4, traceline5, traceline6]
 
 #%%
 
@@ -334,10 +327,10 @@ Availability_critical['Resolution Time'] = ((pd.to_datetime(Availability_critica
 total_av = Availability_critical.groupby(['CI Name'])[['Resolution Time']].sum()
 total_av ["Uptime %"]= (259320-total_av['Resolution Time'])/259320*100
 
-high_5_av=total_av.nlargest(5, "Uptime %") # this is top 5 by availability
-bottom_5_av=total_av.nsmallest(5, "Uptime %")# this is bottom 5 by availability
-high_5_av["Applications"]= high_5_av.index
-bottom_5_av["Applications"]= bottom_5_av.index
+high_10_av=total_av.nlargest(10, "Uptime %") # this is top 5 by availability
+bottom_10_av=total_av.nsmallest(10, "Uptime %")# this is bottom 5 by availability
+high_10_av["Applications"]= high_10_av.index
+bottom_10_av["Applications"]= bottom_10_av.index
 
 #%%
 
@@ -426,7 +419,7 @@ traceTotal = go.Scatter(
     name = 'Jan',
     fill='tonexty',
     mode='lines',
-    marker=dict(color='#FFD700') # set the marker color to gold
+    marker=dict(color='#8A0808') # set the marker color to gold
 )
 traceTotal2 = go.Scatter(
     y=total_counts['Febryary'],
@@ -434,7 +427,7 @@ traceTotal2 = go.Scatter(
     name='Feb',
     fill='tonexty',
     mode='lines',
-    marker=dict(color='#9EA0A1') # set the marker color to silver
+    marker=dict(color='#FFBF00') # set the marker color to silver
 )
 traceTotal3 = go.Scatter(
     y=total_counts['March'],
@@ -442,7 +435,7 @@ traceTotal3 = go.Scatter(
     name='March',
     fill='tonexty',
     mode='lines',
-    marker=dict(color='#CD7F32') # set the marker color to bronze
+    marker=dict(color='#F7D358') # set the marker color to bronze
 )
 traceTotal4 = go.Scatter(
     y=total_counts['April'],  # NOC stands for National Olympic Committee
@@ -450,7 +443,7 @@ traceTotal4 = go.Scatter(
     name = 'Apr',
     fill='tonexty',
     mode='lines',
-    marker=dict(color='#00FFFF') # set the marker color to gold
+    marker=dict(color='#F5A9A9') # set the marker color to gold
 )
 traceTotal5 = go.Scatter(
     y=total_counts['May'],
@@ -458,7 +451,7 @@ traceTotal5 = go.Scatter(
     name='May',
     fill='tonexty',
     mode='lines',
-    marker=dict(color='#FF00FF') # set the marker color to silver
+    marker=dict(color='#D8D8D8') # set the marker color to silver
 )
 traceTotal6 = go.Scatter(
     y=total_counts['June'],
@@ -466,17 +459,18 @@ traceTotal6 = go.Scatter(
     name='June',
     fill='tonexty',
     mode='lines',
-    marker=dict(color='#00FF00') # set the marker color to bronze
+    marker=dict(color='#F6CECE') # set the marker color to bronze
 )
 dataTotal = [traceTotal, traceTotal2, traceTotal3, traceTotal4, traceTotal5, traceTotal6]
 
 #%%
 
 
-
-
+app = Flask("term-eduardo")
 
 external_stylesheets = ['https://codepen.io/chriddyp/pen/bWLwgP.css']
+
+sns.set(style="whitegrid")
 
 app = dash.Dash(__name__, external_stylesheets=external_stylesheets)
 server= app.server
@@ -485,95 +479,36 @@ app.scripts.config.serve_locally = True
 app.config['suppress_callback_exceptions']=True
 
 app.layout = html.Div([
-        html.H1("Welcome to your Dashboard"),
+        html.H1("IAG Incidence Metrics"),
     dcc.Tabs(id="tabs", value='tab-1', children=[
-        dcc.Tab(label='Upload File', value='tab-1'),
-        dcc.Tab(label='Incidence Overview', value='tab-2'),
-        dcc.Tab(label='MTTR', value='tab-3'),
-        dcc.Tab(label='Trends', value='tab-5')
+        dcc.Tab(label='Incidences', value='tab-1'),
+        dcc.Tab(label='Availability', value='tab-2')
 
 
     ]),
     html.Div(id='tabs-content')
 ], 
-            style={'text-align':'center'})
+            style={'text-align':'center',
+                   'font-family':'Courier New'})
 
 @app.callback(Output('tabs-content', 'children'),
               [Input('tabs', 'value')])
+
 def render_content(tab):
     if tab == 'tab-1':
-        return html.Div([
-            dcc.Upload(
-        id='upload-data',
-        children=html.Div([
-            'Drag and Drop or ',
-            html.A('Select Files')
-        ]),
-        style={
-            'width': '100%',
-            'height': '60px',
-            'lineHeight': '60px',
-            'borderWidth': '1px',
-            'borderStyle': 'dashed',
-            'borderRadius': '5px',
-            'textAlign': 'center',
-            'margin': '10px'
-        },
-        # Allow multiple files to be uploaded
-        multiple=True
-    ),
-    html.Div(id='output-data-upload'),
-])
-    elif tab == 'tab-2':
-        return html.Div([
+         return html.Div([
                 html.Div([
-            html.H2('Incident per Application')], 
+            html.H2('Incidence Report')], 
             style={'text-align':'center'}),
-    dcc.Graph(
-        figure=go.Figure(
-            data=[
-                go.Bar(
-                    x=crit_count['CI Name'],
-                    y=crit_count['Incident ID'],
-                    name='Number of Critical Incidences per Application',
-                    marker=go.bar.Marker(
-                        color='rgb(55, 83, 109)'
-                    )
-                )
-            ],
-            layout=go.Layout(
-                title='Number of Critical Incidences per Application',
-                xaxis={'title':'Type of Incidences'},
-                yaxis={'title':'Number of critical Incidences'},
-                showlegend=True,
-                legend=go.layout.Legend(
-                    x=0,
-                    y=1.0
-                ),
-                margin=go.layout.Margin(l=100, r=0, t=100, b=100)
-            )
-        ),
-        style={'height': 500,
-               'width': '100%',
-            'lineHeight': '60px',
-            'borderWidth': '1px',
-            'borderRadius': '5px',
-            'textAlign': 'center',
-            'margin': '10px'},
-        id='my-graph'
-    ),
-                
-html.Div([
-            html.H1('Incident per month')], 
-            style={'text-align':'center'}),
+                    
     dcc.Graph(
         figure=go.Figure(
             data=data,
             layout=go.Layout(
-                title='Incidences per month',
+                title='Critical Incidences Per Month',
                 barmode='stack',
-                xaxis={'title':'Type of Incidences'},
-                yaxis={'title':'Number of critical Incidences'},
+                xaxis={'title':''},
+                yaxis={'title':'Total Incidences'},
                 showlegend=True,
                 legend=go.layout.Legend(
                     x=0,
@@ -583,7 +518,7 @@ html.Div([
             )
         ),
         style={'height': 500,
-               'width': '100%',
+               'width': '90%',
             'lineHeight': '60px',
             'borderWidth': '1px',
             'borderRadius': '5px',
@@ -591,139 +526,118 @@ html.Div([
             'margin': '10px'},
         id='my-graph2'
     ) ,
-
-
-])
-    elif tab == 'tab-3':
-            return html.Div([
-                    
-html.Div([
-            html.H2('MTTR hours')], 
-            style={'text-align':'center'}),
-        html.Div([
-        html.Div([html.H5('Table for MTTR in Hours'),
-        dash_table.DataTable(
-    id='table',
-    columns=[{"name": i, "id": i} for i in final_hour.columns],
-    data=final_hour.to_dict("rows"),
-    editable=True
-)
-        ],className="six columns"),
-                
-
-
-html.Div([html.H5('Number of Critical Incidences for top 10 Application'),
                 
     dcc.Graph(
         figure=go.Figure(
             data=[
                 go.Bar(
-                    x=final_hour['MTTR hours'],
-                    y=final_hour['Applications'],
-                    name='MTTR in hours for top 10 applications',
-                    orientation = 'h',
+                    x=crit_count['CI Name'],
+                    y=crit_count['Incident ID'],
+                    name='Total Critical Incidences per Application',
                     marker=go.bar.Marker(
-                        color='#CD7F32'
+                        color='#8A0808'
                     )
                 )
             ],
             layout=go.Layout(
-                xaxis={'title':'Hours'},
-                yaxis={'title':'Applications'},
-                showlegend=True,
-                barmode='stack',
-                legend=go.layout.Legend(
-                    x=0,
-                    y=1.0
-                ),
-                margin=go.layout.Margin(l=150, r=0, t=100, b=100)
+                title='Total Critical Incidences per Application',
+                xaxis={'title':''},
+                yaxis={'title':'Total Incidences'},
+                showlegend=False,
+                margin=go.layout.Margin(l=100, r=0, t=100, b=100)
             )
         ),
-        style={'height': 450,
-               'width': '95%',
+        style={'height': 500,
+               'width': '90%',
             'lineHeight': '60px',
             'borderWidth': '1px',
             'borderRadius': '5px',
             'textAlign': 'center',
             'margin': '10px'},
-        id='my-graph4'
-    )],className="six columns"),
-                ],className="row"),
-
-
-        html.Div([
-            html.H1('Uptimes')], 
-            style={'text-align':'center'}),
-                html.Div([
-html.Div([   
+        id='my-graph'
+    ),
+                 
     dcc.Graph(
         figure=go.Figure(
-            data=[
-                go.Bar(
-                    x=high_5_av['Applications'],
-                    y=high_5_av['Uptime %'],
-                    name='Top 5 app with uptime',
-                    marker=go.bar.Marker(
-                        color='rgb(55, 83, 109)'
-                    )
-                )
-            ],
+            data=dataTotal,
             layout=go.Layout(
-                title='Top 5 app with uptime',
-                xaxis={'title':'Applications'},
-                yaxis=dict(
-            range=[99.94, 100]
-        ),
-                showlegend=True,
-                legend=go.layout.Legend(
-                    x=0,
-                    y=1.0
-                ),
+                title='Monthlhy Indicence Growth',
+                xaxis={'title':'Date'},
+                yaxis={'title':'Critical Incidences'},
                 margin=go.layout.Margin(l=100, r=0, t=100, b=100)
             )
         ),
         style={'height': 500,
-               'width': '100%',
+               'width': '90%',
+            'lineHeight': '60px',
+            'borderWidth': '1px',
+            'borderRadius': '5px',
+            'textAlign': 'center',
+            'margin': '10px'},
+        id='my-graph10'  ),       
+
+])
+    elif tab == 'tab-2':
+            return html.Div([
+                html.Div([
+            html.H2('Availability Report')], 
+            style={'text-align':'center'}),
+    dcc.Graph(
+        figure=go.Figure(
+            data=[
+                go.Bar(
+                    x=high_10_av['Applications'],
+                    y=high_10_av['Uptime %'],
+                    name='Most Available Applications',
+                    marker=go.bar.Marker(
+                        color='#8A0808'
+                    )
+                )
+            ],
+            layout=go.Layout(
+                title='Most Available Applicatios',
+                xaxis={'title':''},
+                yaxis=dict(
+            range=[99.90, 100]
+        ),
+                showlegend=False,
+                margin=go.layout.Margin(l=100, r=0, t=100, b=100)
+            )
+        ),
+        style={'height': 500,
+               'width': '90%',
             'lineHeight': '60px',
             'borderWidth': '1px',
             'borderRadius': '5px',
             'textAlign': 'center',
             'margin': '10px'},
         id='my-graph5'
-    )
-    ],className="six columns"),
-                
-
-
-html.Div([ 
-    dcc.Graph(
+    ),
+             
+   dcc.Graph(
         figure=go.Figure(
             data=[
                 go.Bar(
-                    x=bottom_5_av['Applications'],
-                    y=bottom_5_av['Uptime %'],
-                    name='Top 5 app with uptime',
+                    x=bottom_10_av['Applications'],
+                    y=bottom_10_av['Uptime %'],
+                    name='Least Available Applications',
                     marker=go.bar.Marker(
-                        color='rgb(55, 83, 109)'
+                        color='#8A0808'
                     )
                 )
             ],
             layout=go.Layout(
-                title='Bottom 5 app with uptime',
-                xaxis={'title':'Applications'},
+                title='Least Available Applications',
+                xaxis={'title':''},
                 yaxis=dict(
-            range=[96, 100]
+            range=[95, 100]
         ),
-                showlegend=True,
-                legend=go.layout.Legend(
-                    x=0,
-                    y=1.0
-                ),
+                showlegend=False,
                 margin=go.layout.Margin(l=100, r=0, t=100, b=100)
             )
         ),
         style={'height': 500,
-               'width': '100%',
+               'width': '90%',
             'lineHeight': '60px',
             'borderWidth': '1px',
             'borderRadius': '5px',
@@ -731,193 +645,7 @@ html.Div([
             'margin': '10px'},
         id='my-graph6'
     )
-],className="six columns")    
-                
-                ],className="row")
 ])
-    elif tab == 'tab-4':
-            return html.Div([
-
-        html.Div([
-            html.H2('Incidences per Department')], 
-            style={'text-align':'center'}),
-                html.Div([
-html.Div([ 
-    dcc.Graph(
-        figure=go.Figure(
-            data=dataHigh,
-            layout=go.Layout(
-                title='High Incidences per Department',
-                barmode='stack',
-                xaxis={'title':'Department'},
-                yaxis={'title':'Number of High Incidences'},
-                showlegend=True,
-                legend=go.layout.Legend(
-                    x=0,
-                    y=1.0
-                ),
-                margin=go.layout.Margin(l=100, r=0, t=100, b=100)
-            )
-        ),
-        style={'height': 500,
-               'width': '100%',
-            'lineHeight': '60px',
-            'borderWidth': '1px',
-            'borderRadius': '5px',
-            'textAlign': 'center',
-            'margin': '10px'},
-        id='my-graph7'
-    ) 
-    ],className="six columns"),
-                
-
-
-html.Div([
-    dcc.Graph(
-        figure=go.Figure(
-            data=dataCrit,
-            layout=go.Layout(
-                title='Critical Incidences per Department',
-                barmode='stack',
-                xaxis={'title':'Departments'},
-                yaxis={'title':'Number of Critical Incidences'},
-                showlegend=True,
-                legend=go.layout.Legend(
-                    x=0,
-                    y=1.0
-                ),
-                margin=go.layout.Margin(l=100, r=0, t=100, b=100)
-            )
-        ),
-        style={'height': 500,
-               'width': '100%',
-            'lineHeight': '60px',
-            'borderWidth': '1px',
-            'borderRadius': '5px',
-            'textAlign': 'center',
-            'margin': '10px'},
-        id='my-graph8'
-    )
-],className="six columns")    
-                
-                ],className="row")
-])
-
-
-    elif tab == 'tab-5':
-            return html.Div([
-
-        html.Div([
-            html.H2('Trends')], 
-            style={'text-align':'center'}),
-                html.Div([
-html.Div([ 
-    dcc.Graph(
-        figure=go.Figure(
-            data=dataline,
-            layout=go.Layout(
-                title='Incidences growth per month',
-                barmode='stack',
-                xaxis={'title':'Date'},
-                yaxis={'title':'Number of critical Incidences'},
-                showlegend=True,
-                legend=go.layout.Legend(
-                    x=0,
-                    y=1.0
-                ),
-                margin=go.layout.Margin(l=100, r=0, t=100, b=100)
-            )
-        ),
-        style={'height': 500,
-               'width': '100%',
-            'lineHeight': '60px',
-            'borderWidth': '1px',
-            'borderRadius': '5px',
-            'textAlign': 'center',
-            'margin': '10px'},
-        id='my-graph9'
-    )  
-    ]),
-                
-
-
-html.Div([ 
-    dcc.Graph(
-        figure=go.Figure(
-            data=dataTotal,
-            layout=go.Layout(
-                title='Incidences per month',
-                xaxis={'title':'Date'},
-                yaxis={'title':'Number of critical Incidences'},
-                showlegend=True,
-                legend=go.layout.Legend(
-                    x=0,
-                    y=1.0
-                ),
-                margin=go.layout.Margin(l=100, r=0, t=100, b=100)
-            )
-        ),
-        style={'height': 500,
-               'width': '100%',
-            'lineHeight': '60px',
-            'borderWidth': '1px',
-            'borderRadius': '5px',
-            'textAlign': 'center',
-            'margin': '10px'},
-        id='my-graph10'
-    )]
-                
-                )])
-])
-
-def parse_contents(contents, filename, date):
-    content_type, content_string = contents.split(',')
-
-    decoded = base64.b64decode(content_string)
-    try:
-        if 'csv' in filename:
-            # Assume that the user uploaded a CSV file
-            df = pd.read_csv(
-                io.StringIO(decoded.decode('utf-8')))
-        elif 'xls' in filename:
-            # Assume that the user uploaded an excel file
-            df = pd.read_excel(io.BytesIO(decoded))
-    except Exception as e:
-        print(e)
-        return html.Div([
-            'There was an error processing this file.'
-        ])
-
-    return html.Div([
-        html.H5(filename),
-        html.H6(datetime.datetime.fromtimestamp(date)),
-
-        dash_table.DataTable(
-            data=df.to_dict('rows'),
-            columns=[{'name': i, 'id': i} for i in df.columns]
-        ),
-
-        html.Hr(),  # horizontal line
-
-        # For debugging, display the raw contents provided by the web browser
-        html.Div('Raw Content'),
-        html.Pre(contents[0:200] + '...', style={
-            'whiteSpace': 'pre-wrap',
-            'wordBreak': 'break-all'
-        })
-    ])
-
-
-@app.callback(Output('output-data-upload', 'children'),
-              [Input('upload-data', 'contents')],
-              [State('upload-data', 'filename'),
-               State('upload-data', 'last_modified')])
-def update_output(list_of_contents, list_of_names, list_of_dates):
-    if list_of_contents is not None:
-        children = [
-            parse_contents(c, n, d) for c, n, d in
-            zip(list_of_contents, list_of_names, list_of_dates)]
-        return children
 
 
 if __name__ == '__main__':
