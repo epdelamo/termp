@@ -29,7 +29,7 @@ app = dash.Dash(__name__, external_stylesheets=external_stylesheets)
 sns.set(style="darkgrid")
 
 
-df_jan = pd.ExcelFile(r'C:\Users\edup_\OneDrive\Documentos\ENE - 02.- MONTHLY INCIDENTS Real Time.xlsx', sep=',')
+df_jan = pd.ExcelFile(r'ENE - 02.- MONTHLY INCIDENTS Real Time.xlsx', sep=',')
 dfs_jan = {sheet_name: df_jan.parse(sheet_name) 
           for sheet_name in df_jan.sheet_names}
 
@@ -51,7 +51,7 @@ jan_mib2 = jan_mib1.reset_index().drop(["index"], axis = 1)
 jan_mib2.columns = jan_mib2.iloc[0]
 jan_mib3 = jan_mib2.drop([0], axis = 0)
 
-df_feb = pd.ExcelFile(r'C:\Users\edup_\OneDrive\Documentos\FEB - 02.- MONTHLY INCIDENTS Real Time.xlsx', sep=',')
+df_feb = pd.ExcelFile(r'FEB - 02.- MONTHLY INCIDENTS Real Time.xlsx', sep=',')
 dfs_feb = {sheet_name: df_feb.parse(sheet_name) 
           for sheet_name in df_feb.sheet_names}
 
@@ -76,7 +76,7 @@ feb_mib3 = feb_mib2.drop([0], axis = 0)
 df_all_mic = pd.concat([jan_mic3, feb_mic3], axis=0)
 #%%
 
-serv = pd.ExcelFile(r"C:\Users\edup_\OneDrive\Documentos\Incidents by service and applications JAN-JUN2018.xls", sep=',')
+serv = pd.ExcelFile(r"Incidents by service and applications JAN-JUN2018.xls", sep=',')
 serv1 = {sheet_name: serv.parse(sheet_name) 
           for sheet_name in serv.sheet_names}
 serv_data = serv1.get('Data')
@@ -87,7 +87,7 @@ inc_data = serv_data.fillna("App not found")
 #crit_count = critical_inc.groupby(['CI Name'])[['Incident ID']].nunique()
 #crit_count["CI Name"]= crit_count.index
 #%%
-ava_pd = pd.ExcelFile(r'C:\Users\edup_\OneDrive\Documentos\Incidents by service and applications JAN-JUN2018.xls', sep=',')
+ava_pd = pd.ExcelFile(r'Incidents by service and applications JAN-JUN2018.xls', sep=',')
 Ava_df = {sheet_name: ava_pd.parse(sheet_name) 
           for sheet_name in ava_pd.sheet_names}
 Availability_DF = Ava_df.get('Data')
@@ -97,7 +97,7 @@ Availability_critical= Availability_DF[Availability_DF["Priority"] == "Critical"
 
 #%%
 
-serv2 = pd.ExcelFile(r'C:\Users\edup_\OneDrive\Documentos\20190125 Critical services - application.xls', sep=',')
+serv2 = pd.ExcelFile(r'20190125 Critical services - application.xls', sep=',')
 serv2 = {sheet_name: serv2.parse(sheet_name) 
           for sheet_name in serv2.sheet_names}
 serv2_data = serv2.get('Dominio-ser-aplic')
