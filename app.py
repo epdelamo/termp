@@ -19,10 +19,9 @@ from dash.dependencies import Input, Output, State
 import dash_table
 import dash_auth
 import plotly
-from dash.dependencies import Input, Output, State
 
 
-external_stylesheets = ['https://codepen.io/chriddyp/pen/bWLwgP.css']
+external_stylesheets = ['https://codepen.io/webdatarocks/pen/oVpebp?page=1&']
 
 app = dash.Dash(__name__, external_stylesheets=external_stylesheets)
 
@@ -30,7 +29,7 @@ app = dash.Dash(__name__, external_stylesheets=external_stylesheets)
 sns.set(style="darkgrid")
 
 
-df_jan = pd.ExcelFile(r'C:\Users\edup_\OneDrive\Documents\Term Integration\ENE - 02.- MONTHLY INCIDENTS Real Time.xlsx', sep=',')
+df_jan = pd.ExcelFile(r'C:\Users\edup_\OneDrive\Documentos\ENE - 02.- MONTHLY INCIDENTS Real Time.xlsx', sep=',')
 dfs_jan = {sheet_name: df_jan.parse(sheet_name) 
           for sheet_name in df_jan.sheet_names}
 
@@ -52,7 +51,7 @@ jan_mib2 = jan_mib1.reset_index().drop(["index"], axis = 1)
 jan_mib2.columns = jan_mib2.iloc[0]
 jan_mib3 = jan_mib2.drop([0], axis = 0)
 
-df_feb = pd.ExcelFile(r'C:\Users\edup_\OneDrive\Documents\FEB - 02.- MONTHLY INCIDENTS Real Time.xlsx', sep=',')
+df_feb = pd.ExcelFile(r'C:\Users\edup_\OneDrive\Documentos\FEB - 02.- MONTHLY INCIDENTS Real Time.xlsx', sep=',')
 dfs_feb = {sheet_name: df_feb.parse(sheet_name) 
           for sheet_name in df_feb.sheet_names}
 
@@ -75,11 +74,9 @@ feb_mib2.columns = feb_mib2.iloc[0]
 feb_mib3 = feb_mib2.drop([0], axis = 0)
 
 df_all_mic = pd.concat([jan_mic3, feb_mic3], axis=0)
-
-#df_all_mib = pd.concat([jan_mib3, feb_mib3], axis=0)
 #%%
 
-serv = pd.ExcelFile(r"C:\Users\edup_\OneDrive\Documents\Incidents by service and applications JAN-JUN2018.xls", sep=',')
+serv = pd.ExcelFile(r"C:\Users\edup_\OneDrive\Documentos\Incidents by service and applications JAN-JUN2018.xls", sep=',')
 serv1 = {sheet_name: serv.parse(sheet_name) 
           for sheet_name in serv.sheet_names}
 serv_data = serv1.get('Data')
@@ -90,7 +87,7 @@ inc_data = serv_data.fillna("App not found")
 #crit_count = critical_inc.groupby(['CI Name'])[['Incident ID']].nunique()
 #crit_count["CI Name"]= crit_count.index
 #%%
-ava_pd = pd.ExcelFile(r'C:\Users\edup_\OneDrive\Documents\Incidents by service and applications JAN-JUN2018.xls', sep=',')
+ava_pd = pd.ExcelFile(r'C:\Users\edup_\OneDrive\Documentos\Incidents by service and applications JAN-JUN2018.xls', sep=',')
 Ava_df = {sheet_name: ava_pd.parse(sheet_name) 
           for sheet_name in ava_pd.sheet_names}
 Availability_DF = Ava_df.get('Data')
@@ -100,7 +97,7 @@ Availability_critical= Availability_DF[Availability_DF["Priority"] == "Critical"
 
 #%%
 
-serv2 = pd.ExcelFile(r'C:\Users\edup_\OneDrive\Documents\20190125 Critical services - application1.xls', sep=',')
+serv2 = pd.ExcelFile(r'C:\Users\edup_\OneDrive\Documentos\20190125 Critical services - application.xls', sep=',')
 serv2 = {sheet_name: serv2.parse(sheet_name) 
           for sheet_name in serv2.sheet_names}
 serv2_data = serv2.get('Dominio-ser-aplic')
@@ -139,36 +136,36 @@ critical_inc['month'] = critical_inc['month'].map(lambda x: 'June' if x == 6 els
 
 #%%
 jan_inc= critical_inc[critical_inc["month"] == "January"]
-#jan_inc['date'] = pd.DatetimeIndex(jan_inc['Date raised']).date
+jan_inc['date'] = pd.DatetimeIndex(jan_inc['Date raised']).date
 jan_count = jan_inc.groupby(['CI Name'])[['Incident ID']].nunique()
 jan_count["CI Name"]= jan_count.index
 
 feb_inc= critical_inc[critical_inc["month"] == "February"]
-#feb_inc['date'] = pd.DatetimeIndex(feb_inc['Date raised']).date
+feb_inc['date'] = pd.DatetimeIndex(feb_inc['Date raised']).date
 
 feb_count = feb_inc.groupby(['CI Name'])[['Incident ID']].nunique()
 feb_count["CI Name"]= feb_count.index
 
 mar_inc= critical_inc[critical_inc["month"] == "March"]
-#mar_inc['date'] = pd.DatetimeIndex(mar_inc['Date raised']).date
+mar_inc['date'] = pd.DatetimeIndex(mar_inc['Date raised']).date
 
 mar_count = mar_inc.groupby(['CI Name'])[['Incident ID']].nunique()
 mar_count["CI Name"]= mar_count.index
 
 apr_inc= critical_inc[critical_inc["month"] == "April"]
-#apr_inc['date'] = pd.DatetimeIndex(apr_inc['Date raised']).date
+apr_inc['date'] = pd.DatetimeIndex(apr_inc['Date raised']).date
 
 apr_count = apr_inc.groupby(['CI Name'])[['Incident ID']].nunique()
 apr_count["CI Name"]= apr_count.index
 
 may_inc= critical_inc[critical_inc["month"] == "May"]
-#may_inc['date'] = pd.DatetimeIndex(may_inc['Date raised']).date
+may_inc['date'] = pd.DatetimeIndex(may_inc['Date raised']).date
 
 may_count = may_inc.groupby(['CI Name'])[['Incident ID']].nunique()
 may_count["CI Name"]= may_count.index
 
 jun_inc= critical_inc[critical_inc["month"] == "June"]
-#jun_inc['date'] = pd.DatetimeIndex(jun_inc['Date raised']).date
+jun_inc['date'] = pd.DatetimeIndex(jun_inc['Date raised']).date
 
 jun_count = jun_inc.groupby(['CI Name'])[['Incident ID']].nunique()
 jun_count["CI Name"]= jun_count.index
@@ -176,40 +173,40 @@ jun_count["CI Name"]= jun_count.index
 
 #%%
 trace1 = go.Bar(
-    x=jan_count['CI Name'],  # NOC stands for National Olympic Committee
+    x=jan_count['CI Name'], 
     y=jan_count['Incident ID'],
     name = 'Jan',
-    marker=dict(color='#FFD700') # set the marker color to gold
+    marker=dict(color='#FFD700')
 )
 trace2 = go.Bar(
     x=feb_count['CI Name'],
     y=feb_count['Incident ID'],
     name='Feb',
-    marker=dict(color='#9EA0A1') # set the marker color to silver
+    marker=dict(color='#9EA0A1')
 )
 trace3 = go.Bar(
     x=mar_count['CI Name'],
     y=mar_count['Incident ID'],
     name='March',
-    marker=dict(color='#CD7F32') # set the marker color to bronze
+    marker=dict(color='#CD7F32')
 )
 trace4 = go.Bar(
-    x=apr_count['CI Name'],  # NOC stands for National Olympic Committee
+    x=apr_count['CI Name'],  
     y=apr_count['Incident ID'],
     name = 'Apr',
-    marker=dict(color='#00FFFF') # set the marker color to gold
+    marker=dict(color='#00FFFF')
 )
 trace5 = go.Bar(
     x=may_count['CI Name'],
     y=may_count['Incident ID'],
     name='May',
-    marker=dict(color='#FF00FF') # set the marker color to silver
+    marker=dict(color='#FF00FF')
 )
 trace6 = go.Bar(
     x=jun_count['CI Name'],
     y=jun_count['Incident ID'],
     name='June',
-    marker=dict(color='#00FF00') # set the marker color to bronze
+    marker=dict(color='#00FF00')
 )
 data = [trace1, trace2, trace3, trace4, trace5, trace6]
 #%%
@@ -264,7 +261,7 @@ critical_inc['Date closed'].apply (str)
 critical_inc['Date closed'] = pd.to_datetime(critical_inc['Date closed'], errors= "coerce")
 
 
-#critical_inc['Date closed'] = critical_inc['Date closed'].astype('datetime64[ns]')
+critical_inc['Date closed'] = critical_inc['Date closed'].astype('datetime64[ns]')
 
 critical_inc['MTTR general'] = (critical_inc['Date closed'] - critical_inc['Date raised'])
 critical_inc['MTTR days'] = (critical_inc['Date closed'] - critical_inc['Date raised']) / pd.Timedelta('1 day')
@@ -297,7 +294,6 @@ Availability_critical['month'] = Availability_critical['month'].map(lambda x: 'J
 
 jan_inc1= Availability_critical[Availability_critical["month"] == "January"]
 
-
 feb_inc1= Availability_critical[Availability_critical["month"] == "February"]
 
 mar_inc1= Availability_critical[Availability_critical["month"] == "March"]
@@ -308,103 +304,43 @@ may_inc1= Availability_critical[Availability_critical["month"] == "May"]
 
 jun_inc1= Availability_critical[Availability_critical["month"] == "June"]
 
+jan_inc1['Resolution Time'] = ((pd.to_datetime(jan_inc1['Date closed']) - pd.to_datetime(jan_inc1['Date raised'])).dt.total_seconds() / 60)
+feb_inc1['Resolution Time'] = ((pd.to_datetime(feb_inc1['Date closed']) - pd.to_datetime(feb_inc1['Date raised'])).dt.total_seconds() / 60)
+mar_inc1['Resolution Time'] = ((pd.to_datetime(mar_inc1['Date closed']) - pd.to_datetime(mar_inc1['Date raised'])).dt.total_seconds() / 60)
+apr_inc1['Resolution Time'] = ((pd.to_datetime(apr_inc1['Date closed']) - pd.to_datetime(apr_inc1['Date raised'])).dt.total_seconds() / 60)
+may_inc1['Resolution Time'] = ((pd.to_datetime(may_inc1['Date closed']) - pd.to_datetime(may_inc1['Date raised'])).dt.total_seconds() / 60)
+jun_inc1['Resolution Time'] = ((pd.to_datetime(jun_inc1['Date closed']) - pd.to_datetime(jun_inc1['Date raised'])).dt.total_seconds() / 60)
 
+jan_availability = jan_inc1.groupby(['CI Name'])[['Resolution Time']].sum()
+jan_availability["Uptime %"] = (43800- jan_availability ['Resolution Time'])/43800*100
+#
+feb_availability = feb_inc1.groupby(['CI Name'])[['Resolution Time']].sum()
+feb_availability["Uptime %"] = (40320- feb_availability ['Resolution Time'])/40320*100
 
-jan_availability = jan_inc1.groupby(['CI Name'])[['Time For Resolution (Min)']].sum()
-jan_availability["Uptime %"] = (43800- jan_availability ['Time For Resolution (Min)'])/43800*100
+mar_availability = mar_inc1.groupby(['CI Name'])[['Resolution Time']].sum()
+mar_availability["Uptime %"] = (43800- mar_availability ['Resolution Time'])/43800*100
 
-feb_availability = feb_inc1.groupby(['CI Name'])[['Time For Resolution (Min)']].sum()
-feb_availability["Uptime %"] = (40320- feb_availability ['Time For Resolution (Min)'])/40320*100
+apr_availability = apr_inc1.groupby(['CI Name'])[['Resolution Time']].sum()
+apr_availability["Uptime %"] = (43800- apr_availability ['Resolution Time'])/43800*100
 
-mar_availability = mar_inc1.groupby(['CI Name'])[['Time For Resolution (Min)']].sum()
-mar_availability["Uptime %"] = (43800- mar_availability ['Time For Resolution (Min)'])/43800*100
+may_availability = may_inc1.groupby(['CI Name'])[['Resolution Time']].sum()
+may_availability["Uptime %"] = (43800- may_availability ['Resolution Time'])/43800*100
 
-apr_availability = apr_inc1.groupby(['CI Name'])[['Time For Resolution (Min)']].sum()
-apr_availability["Uptime %"] = (43800- apr_availability ['Time For Resolution (Min)'])/43800*100
-
-may_availability = may_inc1.groupby(['CI Name'])[['Time For Resolution (Min)']].sum()
-may_availability["Uptime %"] = (43800- may_availability ['Time For Resolution (Min)'])/43800*100
-
-jun_availability = jun_inc1.groupby(['CI Name'])[['Time For Resolution (Min)']].sum()
-jun_availability["Uptime %"] = (43800- jun_availability ['Time For Resolution (Min)'])/43800*100
+jun_availability = jun_inc1.groupby(['CI Name'])[['Resolution Time']].sum()
+jun_availability["Uptime %"] = (43800- jun_availability ['Resolution Time'])/43800*100
 
 
 #%% Avialability time per Application cumulative 6 months
-
-total_av = Availability_critical.groupby(['CI Name'])[['Time For Resolution (Min)']].sum()
-total_av ["Uptime %"]= (259320-total_av['Time For Resolution (Min)'])/259320*100
+Availability_critical['Resolution Time'] = ((pd.to_datetime(Availability_critical['Date closed']) - pd.to_datetime(Availability_critical['Date raised'])).dt.total_seconds() / 60)
+total_av = Availability_critical.groupby(['CI Name'])[['Resolution Time']].sum()
+total_av ["Uptime %"]= (259320-total_av['Resolution Time'])/259320*100
 
 high_5_av=total_av.nlargest(5, "Uptime %") # this is top 5 by availability
 bottom_5_av=total_av.nsmallest(5, "Uptime %")# this is bottom 5 by availability
 high_5_av["Applications"]= high_5_av.index
 bottom_5_av["Applications"]= bottom_5_av.index
 
-
-#%% Incidents raised by Department by Month
-
-#depJan = pd.ExcelFile(r'C:\Users\tancr\OneDrive\Documents\IE COURSES\Term Integration\MONTHLY INDICENTS JAN.xlsx', sep=',')
-#dep1Jan = {sheet_name: depJan.parse(sheet_name) 
-#          for sheet_name in depJan.sheet_names}
-#dep_dataJan = dep1Jan.get('MONTHLY INCIDENTS RAISED')
-
-#inc_depJan=dep_dataJan.fillna("Department not found")
-
-#critical_inc_Jan= inc_depJan[inc_depJan["Priority"] == "Critical"]
-#alta_inc_Jan = inc_depJan[inc_depJan["Priority"] == "Alta"]
-#Dep_countJan = critical_inc_Jan.groupby(['Client Department'])[['Incidenct Code']].nunique()
-#High_countJan = alta_inc_Jan.groupby(['Client Department'])[['Incidenct Code']].nunique()
-#High_countJan["Departments"]= High_countJan.index
-#Dep_countJan["Departments"]= Dep_countJan.index
-
-
-#dep_count_Jan = pd.DataFrame(data=Dep_countJan) #DF for January incidents raised by department
-
-
-#depFeb = pd.ExcelFile(r'C:\Users\tancr\OneDrive\Documents\IE COURSES\Term Integration\MONTHLY INCIDENTS FEB.xlsx', sep=',')
-#dep1Feb = {sheet_name: depFeb.parse(sheet_name) 
-#         for sheet_name in depJan.sheet_names}
-#dep_dataFeb = dep1Feb.get('MONTHLY INCIDENTS RAISED')
-
-#inc_depFeb=dep_dataFeb.fillna("Department not found")
-
-#critical_inc_Feb= inc_depFeb[inc_depFeb["Priority"] == "Critical"]
-#alta_inc_Feb = inc_depFeb[inc_depJan["Priority"] == "Alta"]
-#Dep_countFeb = critical_inc_Feb.groupby(['Client Department'])[['Incidenct Code']].nunique()
-#High_countFeb = alta_inc_Feb.groupby(['Client Department'])[['Incidenct Code']].nunique()
-#High_countFeb["Departments"]= High_countFeb.index
-#Dep_countFeb["Departments"]= Dep_countFeb.index
-
-#dep_count_Feb = pd.DataFrame(data=Dep_countFeb) #DF for February incidents raised by department
-
 #%%
-traceJan = go.Bar(
-    y=High_countJan['Incidenct Code'],  # NOC stands for National Olympic Committee
-    x=High_countJan['Departments'],
-    name = 'Jan',
-    marker=dict(color='#FFD700') # set the marker color to gold
-)
-traceFeb = go.Bar(
-    y=High_countFeb['Incidenct Code'],
-    x=High_countFeb['Departments'],
-    name='Feb',
-    marker=dict(color='#9EA0A1') # set the marker color to silver
-)
-dataHigh = [traceFeb, traceJan]
-#%%
-traceJanCrit = go.Bar(
-    y=Dep_countJan['Incidenct Code'],  # NOC stands for National Olympic Committee
-    x=Dep_countJan['Departments'],
-    name = 'Jan',
-    marker=dict(color='#FFD700') # set the marker color to gold
-)
-traceFebCrit = go.Bar(
-    y=Dep_countFeb['Incidenct Code'],
-    x=Dep_countFeb['Departments'],
-    name='Feb',
-    marker=dict(color='#9EA0A1') # set the marker color to silver
-)
-dataCrit = [traceFebCrit, traceJanCrit]
-#%% For the pretty bubbles
 
 jan_sum = jan_count.sum()
 jan_sum= pd.DataFrame (jan_sum)
@@ -555,7 +491,6 @@ app.layout = html.Div([
         dcc.Tab(label='Upload File', value='tab-1'),
         dcc.Tab(label='Incidence Overview', value='tab-2'),
         dcc.Tab(label='MTTR', value='tab-3'),
-        dcc.Tab(label='Department Incidences', value='tab-4'),
         dcc.Tab(label='Trends', value='tab-5')
 
 
