@@ -28,7 +28,7 @@ app = dash.Dash(__name__, external_stylesheets=external_stylesheets)
 sns.set(style="darkgrid")
 
 
-df_jan = pd.ExcelFile(r'termp/ENE - 02.- MONTHLY INCIDENTS Real Time.xlsx', sep=',')
+df_jan = pd.ExcelFile(r'termp/ENE - 02.- MONTHLY INCIDENTS Real Time.xlsx')
 dfs_jan = {sheet_name: df_jan.parse(sheet_name) 
           for sheet_name in df_jan.sheet_names}
 
