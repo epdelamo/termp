@@ -28,7 +28,7 @@ app = dash.Dash(__name__, external_stylesheets=external_stylesheets)
 sns.set(style="darkgrid")
 
 
-df_jan = pd.ExcelFile(r'termp/ENE - 02.- MONTHLY INCIDENTS Real Time.xlsx')
+df_jan = pd.ExcelFile(r'ENE - 02.- MONTHLY INCIDENTS Real Time.xlsx')
 dfs_jan = {sheet_name: df_jan.parse(sheet_name) 
           for sheet_name in df_jan.sheet_names}
 
@@ -50,7 +50,7 @@ jan_mib2 = jan_mib1.reset_index().drop(["index"], axis = 1)
 jan_mib2.columns = jan_mib2.iloc[0]
 jan_mib3 = jan_mib2.drop([0], axis = 0)
 
-df_feb = pd.ExcelFile(r'termp/FEB - 02.- MONTHLY INCIDENTS Real Time.xlsx', sep=',')
+df_feb = pd.ExcelFile(r'FEB - 02.- MONTHLY INCIDENTS Real Time.xlsx')
 dfs_feb = {sheet_name: df_feb.parse(sheet_name) 
           for sheet_name in df_feb.sheet_names}
 
