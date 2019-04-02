@@ -1,5 +1,4 @@
 from flask import Flask, jsonify
-from flask_cors import CORS
 app = Flask("term_integration")
 import matplotlib.pyplot as plt
 import seaborn as sns
