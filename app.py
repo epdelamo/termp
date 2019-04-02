@@ -75,7 +75,7 @@ feb_mib3 = feb_mib2.drop([0], axis = 0)
 df_all_mic = pd.concat([jan_mic3, feb_mic3], axis=0)
 #%%
 
-serv = pd.ExcelFile(r"termp/Incidents by service and applications JAN-JUN2018.xls", sep=',')
+serv = pd.ExcelFile(r"Incidents by service and applications JAN-JUN2018.xls")
 serv1 = {sheet_name: serv.parse(sheet_name) 
           for sheet_name in serv.sheet_names}
 serv_data = serv1.get('Data')
@@ -86,7 +86,7 @@ inc_data = serv_data.fillna("App not found")
 #crit_count = critical_inc.groupby(['CI Name'])[['Incident ID']].nunique()
 #crit_count["CI Name"]= crit_count.index
 #%%
-ava_pd = pd.ExcelFile(r'termp/Incidents by service and applications JAN-JUN2018.xls', sep=',')
+ava_pd = pd.ExcelFile(r'Incidents by service and applications JAN-JUN2018.xls')
 Ava_df = {sheet_name: ava_pd.parse(sheet_name) 
           for sheet_name in ava_pd.sheet_names}
 Availability_DF = Ava_df.get('Data')
@@ -96,7 +96,7 @@ Availability_critical= Availability_DF[Availability_DF["Priority"] == "Critical"
 
 #%%
 
-serv2 = pd.ExcelFile(r'termp/20190125 Critical services - application.xls', sep=',')
+serv2 = pd.ExcelFile(r'20190125 Critical services - application.xls')
 serv2 = {sheet_name: serv2.parse(sheet_name) 
           for sheet_name in serv2.sheet_names}
 serv2_data = serv2.get('Dominio-ser-aplic')
