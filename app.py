@@ -500,7 +500,7 @@ def render_content(tab):
                 )
             ],
             layout=go.Layout(
-                title='Total Critical Incidences per Application',
+                title='Critical Incidences per Application',
                 xaxis={'title':''},
                 yaxis={'title':'Total Incidences'},
                 showlegend=False,
@@ -521,7 +521,7 @@ def render_content(tab):
         figure=go.Figure(
             data=dataTotal,
             layout=go.Layout(
-                title='Monthlhy Indicence Growth',
+                title='Daily Critical Incidences per Month',
                 xaxis={'title':'Date'},
                 yaxis={'title':'Critical Incidences'},
                 margin=go.layout.Margin(l=100, r=0, t=100, b=100)
