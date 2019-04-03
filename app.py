@@ -21,45 +21,45 @@ import pandas as pd
 from matplotlib.figure import Figure
 import io
 
-df_jan = pd.ExcelFile(r'ENE - 02.- MONTHLY INCIDENTS Real Time.xlsx')
-dfs_jan = {sheet_name: df_jan.parse(sheet_name) 
-          for sheet_name in df_jan.sheet_names}
+#df_jan = pd.read(r'ENE - 02.- MONTHLY INCIDENTS Real Time.xlsx')
+#dfs_jan = {sheet_name: df_jan.parse(sheet_name) 
+#          for sheet_name in df_jan.sheet_names}
 
-jan_mir = dfs_jan.get('MONTHLY INCIDENTS RAISED')
+jan_mir = pd.read_csv(r"ENE - 02.- MONTHLY INCIDENTS RAISED.csv", sep = ';')
 jan_mir1 = jan_mir.drop([0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16], axis= 0)
 jan_mir2 = jan_mir1.reset_index().drop(["index"], axis = 1)
 jan_mir2.columns = jan_mir2.iloc[0]
 jan_mir3 = jan_mir2.drop([0], axis = 0)
 
-jan_mic = dfs_jan.get('MONTHLY INCIDENTS CLOSED')
+jan_mic = pd.read_csv(r"ENE - 02.- MONTHLY INCIDENTS CLOSED.csv", sep = ';')
 jan_mic1 = jan_mic.drop([0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16], axis= 0)
 jan_mic2 = jan_mic1.reset_index().drop(["index"], axis = 1)
 jan_mic2.columns = jan_mic2.iloc[0]
 jan_mic3 = jan_mic2.drop([0], axis = 0)
 
-jan_mib = dfs_jan.get('MONTHLY INCIDENTS BACKLOG')
+jan_mib = pd.read_csv(r"ENE - 02.- MONTHLY INCIDENTS BACKLOG.csv", sep = ';')
 jan_mib1 = jan_mib.drop([0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16], axis= 0)
 jan_mib2 = jan_mib1.reset_index().drop(["index"], axis = 1)
 jan_mib2.columns = jan_mib2.iloc[0]
 jan_mib3 = jan_mib2.drop([0], axis = 0)
 
-df_feb = pd.ExcelFile(r'FEB - 02.- MONTHLY INCIDENTS Real Time.xlsx')
-dfs_feb = {sheet_name: df_feb.parse(sheet_name) 
-          for sheet_name in df_feb.sheet_names}
+#df_feb = pd.ExcelFile(r'FEB - 02.- MONTHLY INCIDENTS Real Time.xlsx')
+#dfs_feb = {sheet_name: df_feb.parse(sheet_name) 
+#          for sheet_name in df_feb.sheet_names}
 
-feb_mir = dfs_feb.get('MONTHLY INCIDENTS RAISED')
+feb_mir = pd.read_csv(r"FEB - 02.- MONTHLY INCIDENTS RAISED.csv", sep = ';')
 feb_mir1 = feb_mir.drop([0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16], axis= 0)
 feb_mir2 = feb_mir1.reset_index().drop(["index"], axis = 1)
 feb_mir2.columns = feb_mir2.iloc[0]
 feb_mir3 = feb_mir2.drop([0], axis = 0)
 
-feb_mic = dfs_feb.get('MONTHLY INCIDENTS CLOSED')
+feb_mic = pd.read_csv(r"FEB - 02.- MONTHLY INCIDENTS CLOSED.csv", sep = ';')
 feb_mic1 = feb_mic.drop([0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16], axis= 0)
 feb_mic2 = feb_mic1.reset_index().drop(["index"], axis = 1)
 feb_mic2.columns = feb_mic2.iloc[0]
 feb_mic3 = feb_mic2.drop([0], axis = 0)
 
-feb_mib = dfs_feb.get('MONTHLY INCIDENTS BACKLOG')
+feb_mib = pd.read_csv(r"FEB - 02.- MONTHLY INCIDENTS BACKLOG.csv", sep = ';')
 feb_mib1 = feb_mib.drop([0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16], axis= 0)
 feb_mib2 = feb_mib1.reset_index().drop(["index"], axis = 1)
 feb_mib2.columns = feb_mib2.iloc[0]
@@ -68,33 +68,17 @@ feb_mib3 = feb_mib2.drop([0], axis = 0)
 df_all_mic = pd.concat([jan_mic3, feb_mic3], axis=0)
 #%%
 
-serv = pd.ExcelFile(r"Incidents by service and applications JAN-JUN2018.xls")
-serv1 = {sheet_name: serv.parse(sheet_name) 
-          for sheet_name in serv.sheet_names}
-serv_data = serv1.get('Data')
-
-
-inc_data = serv_data.fillna("App not found")
-#critical_inc= inc_app[inc_app["Priority"] == "Critical"]
-#crit_count = critical_inc.groupby(['CI Name'])[['Incident ID']].nunique()
-#crit_count["CI Name"]= crit_count.index
-#%%
-ava_pd = pd.ExcelFile(r'Incidents by service and applications JAN-JUN2018.xls')
-Ava_df = {sheet_name: ava_pd.parse(sheet_name) 
-          for sheet_name in ava_pd.sheet_names}
-Availability_DF = Ava_df.get('Data')
+Ava_df = pd.read_csv(r"Incidents by service and applications JAN-JUN2018.csv", sep = ';')
+Availability_DF = Ava_df
 Availability_DF=Availability_DF.fillna("Application not found")
 
 Availability_critical= Availability_DF[Availability_DF["Priority"] == "Critical"]
 
 #%%
 
-serv2 = pd.ExcelFile(r'20190125 Critical services - application.xls')
-serv2 = {sheet_name: serv2.parse(sheet_name) 
-          for sheet_name in serv2.sheet_names}
-serv2_data = serv2.get('Dominio-ser-aplic')
+serv2_data = pd.read_csv(r"20190125 Critical services - application.csv", sep = ';')
 
-appl= inc_data ["CI Name"].tolist()
+appl= Availability_DF["CI Name"].tolist()
 crit_app= serv2_data ["Application"].tolist()
 
 critic_appl=[]
@@ -105,11 +89,11 @@ for i in appl:
     else:
         critic_appl.append("False")
             
-inc_data.insert(loc=0, column='Critical_app', value=critic_appl)
+Availability_DF.insert(loc=0, column='Critical_app', value=critic_appl)
    
 
 #critical_inc= inc_data[inc_data["Priority"] == "Critical"]
-critical_inc= inc_data[inc_data["Critical_app"] != "False"]
+critical_inc= Availability_DF[Availability_DF["Critical_app"] != "False"]
 
 #critical_inc = inc_data["Incident ID"].unique()
 crit_count = critical_inc.groupby(['CI Name'])[['Incident ID']].nunique()
@@ -162,7 +146,6 @@ jun_inc['date'] = pd.DatetimeIndex(jun_inc['Date raised']).date
 jun_count = jun_inc.groupby(['CI Name'])[['Incident ID']].nunique()
 jun_count["CI Name"]= jun_count.index
 
-
 #%%
 trace1 = go.Bar(
     x=jan_count['CI Name'], 
@@ -201,52 +184,14 @@ trace6 = go.Bar(
     marker=dict(color='#F6CECE')
 )
 data = [trace1, trace2, trace3, trace4, trace5, trace6]
-#%%
-#traceline1 = go.Scatter(
-#    y=jan_inc['Incident ID'], 
-#    x=jan_inc['date'],
-#    name = 'Jan',
-#    mode='markers',
-#    marker=dict(color='#8A0808')
-#)
-#traceline2 = go.Scatter(
-#    y=feb_inc['Incident ID'],
-#    x=feb_inc['date'],
-#    name='Feb',
-#    mode='markers',
-#    marker=dict(color='#FFBF00') 
-#)
-#traceline3 = go.Scatter(
-#    y=mar_inc['Incident ID'],
-#    x=mar_inc['date'],
-#    name='March',
-#    mode='markers',
-#    marker=dict(color='#F7D358')
-#)
-#traceline4 = go.Scatter(
-#    y=apr_inc['Incident ID'],
-#    x=apr_inc['date'],
-#    name = 'Apr',
-#    mode='markers',
-#    marker=dict(color='#F5A9A9')
-#)
-#traceline5 = go.Scatter(
-#    y=may_inc['Incident ID'],
-#    x=may_inc['date'],
-#    name='May',
-#    mode='markers',
-#    marker=dict(color='#D8D8D8')
-#)
-#traceline6 = go.Scatter(
-#    y=jun_inc['Incident ID'],
-#    x=jun_inc['date'],
-#    name='June',
-#    mode='markers',
-#    marker=dict(color='#F6CECE')
-#)
-#dataline = [traceline1, traceline2, traceline3, traceline4, traceline5, traceline6]
 
 #%%
+critical_inc['Date raised'].apply (str)
+
+critical_inc['Date raised'] = pd.to_datetime(critical_inc['Date raised'], errors= "coerce")
+
+
+critical_inc['Date raised'] = critical_inc['Date raised'].astype('datetime64[ns]')
 
 critical_inc['Date closed'].apply (str)
 
@@ -327,10 +272,16 @@ Availability_critical['Resolution Time'] = ((pd.to_datetime(Availability_critica
 total_av = Availability_critical.groupby(['CI Name'])[['Resolution Time']].sum()
 total_av ["Uptime %"]= (259320-total_av['Resolution Time'])/259320*100
 
-high_10_av=total_av.nlargest(10, "Uptime %") # this is top 5 by availability
-bottom_10_av=total_av.nsmallest(10, "Uptime %")# this is bottom 5 by availability
-high_10_av["Applications"]= high_10_av.index
-bottom_10_av["Applications"]= bottom_10_av.index
+high_10_av=total_av.nlargest(11, "Uptime %")
+highest_av = high_10_av.drop('CHECK IN SYSTEM')
+bottom_10_av=total_av.nsmallest(15, "Uptime %")
+bottom_av = bottom_10_av.drop('CTRL. PRODUC. T/C MAD')
+bottom_av2 = bottom_av.drop('Application not found')
+bottom_av3 = bottom_av2.drop('COM039')
+bottom_av4 = bottom_av3.drop('GEO001')
+bottom_av5 = bottom_av4.drop('CARGO TERMINAL MANAGEMENT SYSTEM')
+highest_av["Applications"]= highest_av.index
+bottom_av5["Applications"]= bottom_av5.index
 
 #%%
 
@@ -595,8 +546,8 @@ def render_content(tab):
         figure=go.Figure(
             data=[
                 go.Bar(
-                    x=high_10_av['Applications'],
-                    y=high_10_av['Uptime %'],
+                    x=highest_av['Applications'],
+                    y=highest_av['Uptime %'],
                     name='Most Available Applications',
                     marker=go.bar.Marker(
                         color='#8A0808'
@@ -607,7 +558,7 @@ def render_content(tab):
                 title='Most Available Applicatios',
                 xaxis={'title':''},
                 yaxis=dict(
-            range=[99.90, 100]
+            range=[0, 100]
         ),
                 showlegend=False,
                 margin=go.layout.Margin(l=100, r=0, t=100, b=100)
@@ -627,8 +578,8 @@ def render_content(tab):
         figure=go.Figure(
             data=[
                 go.Bar(
-                    x=bottom_10_av['Applications'],
-                    y=bottom_10_av['Uptime %'],
+                    x=bottom_av5['Applications'],
+                    y=bottom_av5['Uptime %'],
                     name='Least Available Applications',
                     marker=go.bar.Marker(
                         color='#8A0808'
@@ -639,7 +590,7 @@ def render_content(tab):
                 title='Least Available Applications',
                 xaxis={'title':''},
                 yaxis=dict(
-            range=[95, 100]
+            range=[0, 100]
         ),
                 showlegend=False,
                 margin=go.layout.Margin(l=100, r=0, t=100, b=100)
